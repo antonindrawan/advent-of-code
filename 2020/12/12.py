@@ -55,7 +55,7 @@ def rotate_waypoint(waypoint, degrees):
     #e.g. every 90 deg clockwise rotation: 4,10 -> -10,4 -> -4,-10 -> 10,-4
     rotate_index = int(degrees / 90) % 4
     for _ in range(rotate_index):
-        waypoint = (waypoint[1] * -1, waypoint[0])
+        waypoint = (-waypoint[1], waypoint[0])
 
     return waypoint
 
