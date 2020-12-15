@@ -2,14 +2,7 @@
 
 # https://adventofcode.com/2020/day/15
 
-import os, re
-
-from itertools import combinations_with_replacement, combinations
-from copy import deepcopy
-from collections import Counter
-
-
-
+import os
 
 def read_inputs(input):
     lines = []
@@ -58,7 +51,6 @@ def solve(input):
 
 def solve2(input):
     solution(input, 30000000)
-
 
 #solve("in_short.txt")
 solve("in.txt")
