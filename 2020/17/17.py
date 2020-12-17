@@ -2,12 +2,9 @@
 
 # https://adventofcode.com/2020/day/17
 
-import os, re, sys
+import os
 from itertools import product
 import operator
-
-ACTIVE = '#'
-INACTIVE = '.'
 
 def read_inputs(input, dimension):
     lines = []
@@ -33,30 +30,27 @@ def solve(input):
     print("[part 1] Active cubes after 6 cycles:", cubes_count)
 
 def count_active_cubes(cubes, cube_size, iteration, dimension):
-    z_count = 1
     neighbors_deltas = list(product((-1, 0, 1), repeat=dimension))
 
     for _ in range(iteration):
         new_cubes = {}
-        for i in range(-iteration, cube_size + iteration):
-            for j in range(-iteration, cube_size + iteration):
-                for z in range(-iteration, z_count + iteration):
-                    coordinate = (i, j, z)
-                    active_neighbors = 0
-                    for d in neighbors_deltas:
-                        neigbor = tuple(map(operator.add, d, coordinate))
-                        if neigbor != coordinate and neigbor in cubes and cubes[neigbor] == 1:
-                            active_neighbors += 1
-                    #print(coordinate, active_neighbors)
-                    if coordinate in cubes:
-                        if active_neighbors >= 2 and active_neighbors <= 3:
-                            new_cubes[coordinate] = 1
-                    elif active_neighbors == 3:
-                        new_cubes[coordinate] = 1
+        for coordinate in product(range(-iteration, cube_size + iteration), repeat=dimension):
+            active_neighbors = 0
+            for d in neighbors_deltas:
+                neigbor = tuple(map(operator.add, d, coordinate))
+                if neigbor != coordinate and neigbor in cubes and cubes[neigbor] == 1:
+                    active_neighbors += 1
+            #print(coordinate, active_neighbors)
+            if coordinate in cubes:
+                if active_neighbors >= 2 and active_neighbors <= 3:
+                    new_cubes[coordinate] = 1
+            elif active_neighbors == 3:
+                new_cubes[coordinate] = 1
         cubes = new_cubes
     return len(cubes)
 
-
+# This method does the same as count_active_cubes, only for 4-dimensional array
+# It is much faster apparently (13 seconds vs 6 seconds) for part 2
 def count_active_cubes2(cubes, cube_size, iteration, dimension):
     z_count = 1
     w_count = 1
@@ -72,7 +66,7 @@ def count_active_cubes2(cubes, cube_size, iteration, dimension):
                         active_neighbors = 0
                         for d in neighbors_deltas:
                             neigbor = tuple(map(operator.add, d, coordinate))
-                            if neigbor != coordinate and neigbor in cubes and cubes[neigbor] == 1:
+                            if neigbor != coordinate and neigbor in cubes:
                                 active_neighbors += 1
                         #print(coordinate, active_neighbors)
                         if coordinate in cubes:
@@ -87,11 +81,11 @@ def count_active_cubes2(cubes, cube_size, iteration, dimension):
 def solve2(input):
     dimension = 4
     cubes, cube_size = read_inputs(input, dimension)
-    cubes_count = count_active_cubes2(cubes, cube_size, iteration=6, dimension=dimension)
+    cubes_count = count_active_cubes(cubes, cube_size, iteration=6, dimension=dimension)
     print("[part 2] Active cubes after 6 cycles:", cubes_count)
 
 
-solve("in_short.txt")
+#solve("in_short.txt")
 solve("in.txt")
-solve2("in_short.txt")
+#solve2("in_short.txt")
 solve2("in.txt")
