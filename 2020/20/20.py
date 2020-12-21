@@ -215,11 +215,8 @@ def solve(input):
     big_image = Tile(999)
     big_image.image = combine_grid()
 
-    total_hash = 0
-    for i in big_image.image:
-        total_hash += i.count('#')
+    total_hash = sum([i.count('#') for i in big_image.image])
     print("Total #:", total_hash)
-
 
     #SEA_MONSTERS=[]
     #SEA_MONSTERS.append("                  # ")
