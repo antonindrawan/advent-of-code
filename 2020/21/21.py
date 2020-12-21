@@ -52,14 +52,14 @@ def solve(input):
         ingredients = input[0].split()
         allergents = input[1].split(', ')
 
-        print(ingredients, allergents)
+        #print(ingredients, allergents)
         foods.append((ingredients, allergents))
 
     ingredient_allergent_map = get_ingredient_allergent_map(foods)
-    print(ingredient_allergent_map)
+    #print(ingredient_allergent_map)
 
     print("[part 1]", solve1(ingredient_allergent_map, foods))
     print("[part 2]", solve2(ingredient_allergent_map))
 
-#solve("in_short.txt")
+solve("in_short.txt")
 solve("in.txt")
