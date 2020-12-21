@@ -166,45 +166,20 @@ def solve(input):
     global image_grid_dict
     image_grid_dict = dict()
 
-    image_grid_dict[(0,0)] = (corner_tiles[0], tiles[corner_tiles[0]].id)
-    #neighbors(corner_tiles[0], 0, 0)
 
-    # top left = 0, top right = 1, bottom left = 2, bottom right = 3
-    global orientation
-    orientation = 0
-
+    # Breadth First Search
     queue = []
     queue.append((corner_tiles[0], 0, 0))
-    while len(queue) > 0:
+    image_grid_dict[(0,0)] = (corner_tiles[0], tiles[corner_tiles[0]].id)
+    while queue:
         (tile_index, i, j) = queue.pop(0)
         print("Processing", tiles[tile_index].id, i, j)
         for n, row, col in neighbors(tile_index, i, j):
             print("Adding neighbor", tiles[n].id, row, col)
             queue.append((n, row, col))
-        if (i, j) == (0, 0):
-            # determine the corner orientation
-            # 0 => row [-2, 0], col [-2, 0]
-            if (queue[0][1] == 0 and queue[0][2] == -1 and queue[1][1] == -1 and queue[1][2] == 0) or (queue[0][1] == -1 and queue[0][2] == 0 and queue[1][1] == 0 and queue[1][2] == -1):
-                orientation = 0
-            elif (queue[0][1] == 0 and queue[0][2] == 1 and queue[1][1] == -1 and queue[1][2] == 0) or (queue[0][1] == -1 and queue[0][2] == 0 and queue[1][1] == 0 and queue[1][2] == 1):
-                orientation = 1
-            elif (queue[0][1] == 0 and queue[0][2] == 1 and queue[1][1] == 1 and queue[1][2] == 0) or (queue[0][1] == 1 and queue[0][2] == 0 and queue[1][1] == 0 and queue[1][2] == 1):
-                orientation = 2
-            elif (queue[0][1] == 0 and queue[0][2] == -1 and queue[1][1] == 1 and queue[1][2] == 0) or (queue[0][1] == 1 and queue[0][2] == 0 and queue[1][1] == 0 and queue[1][2] == -1):
-                orientation = 2
-            print("ORIENTATION:", orientation)
 
-    # Check for duplicates
-    tiles_cpy = deepcopy(tiles)
-    for i in image_grid_dict.values():
-        for t in range(len(tiles_cpy)):
-            tt = tiles_cpy[t]
-            if i[1] == tt.id:
-                break
-        del tiles_cpy[t]
-
-    assert len(tiles_cpy) == 0
-
+    # Ensure the grid is populated with all avalable tile ids.
+    assert len(set([tile.id for tile in tiles]) - set([tile_id for tile_idx, tile_id in image_grid_dict.values()])) == 0
 
     # Remove borders
     for tile in tiles:
@@ -236,7 +211,7 @@ def solve(input):
             if sea_monster_count > 0:
                 print(tile_aux)
                 print("[part 2]", total_hash - (sea_monster_count*SEA_MONSTERS_COST))
-                #break
+                break
 
 
 def find_sea_monster_count(image):
