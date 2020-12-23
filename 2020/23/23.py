@@ -30,7 +30,7 @@ def solve(input):
     print()
 
 
-def get_destination_node(current_node, pick_up_nodes, max_number):
+def get_destination(current_node, pick_up_nodes, max_number):
     destination = current_node.number - 1
     if destination == 0:
         destination = max_number
@@ -48,7 +48,7 @@ def move_cycle(lookup_nodes, start_node, cycles):
     while cycle < cycles:
         pick_up_nodes = [current_node.next, current_node.next.next, current_node.next.next.next]
 
-        destination = get_destination_node(current_node, pick_up_nodes, nodes_count)
+        destination = get_destination(current_node, pick_up_nodes, nodes_count)
         destination_node = lookup_nodes[destination]
         destination_next_node = destination_node.next
 
@@ -102,9 +102,9 @@ def solve2(input):
     node_one = lookup_nodes[1]
     print("[part 2] Result", node_one.next.number * node_one.next.next.number)
 
-solve("in_short.txt")
+#solve("in_short.txt")
 solve("in.txt")
 
-solve2("in_short.txt")
+#solve2("in_short.txt")
 solve2("in.txt")
 
