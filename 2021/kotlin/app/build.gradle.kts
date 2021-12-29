@@ -38,5 +38,14 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass.set("aoc.AppKt")
+    var main = "aoc.Day4Kt"
+    if (project.hasProperty("main")) {
+        main = project.property("main").toString()
+    }
+    mainClass.set(main)
+
+    // change the working directory
+    tasks.run.get().workingDir = rootProject.projectDir
+    println("Changing the working directory to ${tasks.run.get().workingDir}")
 }
+
