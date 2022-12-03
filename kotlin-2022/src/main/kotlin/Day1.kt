@@ -41,5 +41,4 @@ fun main() {
 
     part1(lines)
     part2(lines)
-
 }
